@@ -1,0 +1,58 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="main.master.cs" Inherits="OwinAuthSimple.main" %>
+
+<!DOCTYPE html>
+<html>
+<head runat="server">
+    <title></title>
+    <link href="main.css" rel="stylesheet" />
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div>
+            <h1>OWIN Authentication Simple</h1>
+            <table border="0">
+                <tr>
+                    <td valign="top">
+                        <table cellpadding="5" style="font-size: 14px;">
+                            <tr>
+                                <td><a href="default.aspx">HOME</a></td>
+                                <td><a href="adminarea/default.aspx">Admin Area</a></td>
+                                <td><a href="userarea/default.aspx">User Area</a></td>
+                                <td><a href="/login.aspx">Login</a></td>
+                                <td><a href="/logout.aspx">Logout</a></td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td width="50px"></td>
+                    <td valign="top">
+                        <table border="0" cellpadding="0">
+                            <tr>
+                                <td><%=DateTime.UtcNow.ToString("o") %></td>
+                            </tr>
+                            <tr>
+                                <td>User: <%=HttpContext.Current.User.Identity.Name %></td>
+                            </tr>
+                            <tr>
+                                <td>Autenticated: <%=HttpContext.Current.User.Identity.IsAuthenticated %></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <asp:GridView ID="GVUserClaims" runat="server" Caption="User claims" Font-Size="10px" EnableViewState="false"></asp:GridView>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+
+
+        </div>
+        <div>
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+    </form>
+</body>
+</html>
