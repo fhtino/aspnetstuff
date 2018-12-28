@@ -61,6 +61,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="customValues.xml" />
     <Content Include="default.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -73,6 +74,7 @@
       <DependentUpon>default.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebConfigInjector.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Web.Debug.config">

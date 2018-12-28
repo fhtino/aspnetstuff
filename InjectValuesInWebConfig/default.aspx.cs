@@ -26,8 +26,9 @@ namespace InjectValuesInWebConfig
             lines.Add("ConnectionStrings:");
             for (int i = 0; i < ConfigurationManager.ConnectionStrings.Count; i++)
             {
-                lines.Add($" - {ConfigurationManager.ConnectionStrings[i].Name} = {ConfigurationManager.ConnectionStrings[i].ConnectionString}");
-            }            
+                var item = ConfigurationManager.ConnectionStrings[i];
+                lines.Add($" - {item.Name} = {item.ConnectionString} [{item.ProviderName}]");
+            }
 
             LblOut.Text = String.Join("<br/>", lines);
         }

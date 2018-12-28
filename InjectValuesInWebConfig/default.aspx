@@ -6,7 +6,7 @@
     <style>
         body {
             font-family: Arial;
-            font-size: 12px;
+            font-size: 13px;
         }
     </style>
     <title></title>

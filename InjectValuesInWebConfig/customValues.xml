@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<myvalues>
+  
+  <appsettings>
+    <kv key="k1" value="V1_new"/>
+    <kv key="k4" value="V4_new"/>
+  </appsettings>
+  
+  <connectionstring>
+    <conn name="Sql1" connstring="new conn string 1" provider="new provider 2"/>
+    <conn name="Sql3" connstring="new conn string 3" provider="new provider 3"/>
+  </connectionstring>
+  
+</myvalues>
