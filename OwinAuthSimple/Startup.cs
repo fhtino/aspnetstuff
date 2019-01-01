@@ -7,6 +7,7 @@ using Microsoft.Owin.Extensions;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
+using Microsoft.Owin.Security.MicrosoftAccount;
 using Owin;
 
 [assembly: OwinStartup(typeof(OwinAuthSimple.Startup))]
@@ -21,8 +22,9 @@ namespace OwinAuthSimple
             var cookieOptions = new CookieAuthenticationOptions
             {
                 LoginPath = new PathString("/login.aspx"),
-                ExpireTimeSpan = new TimeSpan(1, 0, 0),
-                CookieName = "MyAuth"
+                ExpireTimeSpan = new TimeSpan(1, 0, 0), 
+                CookieName = "myauth.cookie",              // I don't know why but it must have a dot in the name:
+                                                           //   .myid or myid.abc or something else with a "."
             };
             app.UseCookieAuthentication(cookieOptions);
             app.SetDefaultSignInAsAuthenticationType(cookieOptions.AuthenticationType);
@@ -41,6 +43,24 @@ namespace OwinAuthSimple
                     }
                 }
             });
+
+
+            // --- Microsoft authentication ---
+            var microsoftOptions = new MicrosoftAccountAuthenticationOptions
+            {
+                ClientId = ConfigurationManager.AppSettings["MicrosoftClientID"],
+                ClientSecret = ConfigurationManager.AppSettings["MicrosoftClientSecret"],
+                Provider = new MicrosoftAccountAuthenticationProvider()
+                {
+                    OnAuthenticated = context =>
+                    {
+                        context.Identity.AddClaim(new Claim(MyConstants.MyClaimdProviderID, "Microsoft"));
+                        return Task.FromResult<object>(null);
+                    }
+                }
+            };
+            app.UseMicrosoftAccountAuthentication(microsoftOptions);
+
 
             // --- add roles ---
             app.Use(SimpleAddRoles.AddRoleAndSID)                 // <--- add my roles & information

@@ -28,32 +28,54 @@ namespace OwinAuthSimple
         // ----------------------------------------------------
 
 
-        private List<FakeUsersDBItem> _items;
+        // private List<FakeUsersDBItem> _items;
 
+        private string _xmlFileName = null;
 
         public FakeRoleDB(string xmlFileName)
         {
+            _xmlFileName = xmlFileName;
+
+        }
+
+
+        private List<FakeUsersDBItem> Load()
+        {
             var xs = new XmlSerializer(typeof(List<FakeUsersDBItem>));
-            using (var fs = File.OpenRead(xmlFileName))
+            using (var fs = File.OpenRead(_xmlFileName))
             {
-                _items = (List<FakeUsersDBItem>)xs.Deserialize(fs);
+                return (List<FakeUsersDBItem>)xs.Deserialize(fs);
+            }
+        }
+
+        private void Save(List<FakeUsersDBItem> items)
+        {
+            var xs = new XmlSerializer(typeof(List<FakeUsersDBItem>));
+            using (var fs = File.OpenWrite(_xmlFileName))
+            {
+                xs.Serialize(fs, items);
             }
         }
 
 
         public void GetUserIDandRoles(string idFromProvider, string providerName, out string ID, out string[] roles)
         {
-            ID = null;
-            roles = null;
+            List<FakeUsersDBItem> _items = Load();
 
             var item = _items.SingleOrDefault(x => x.ProviderName == providerName && x.IDFromProvider == idFromProvider);
 
-            if (item != null)
+            if (item == null)
             {
-                ID = item.UniqueID;
-                roles = item.Roles.Split('#');
+                item = new FakeUsersDBItem() { ProviderName = providerName, IDFromProvider = idFromProvider, Roles = "genericuser", UniqueID = Guid.NewGuid().ToString() };
+                _items.Add(item);
+                Save(_items);
             }
+
+            ID = item.UniqueID;
+            roles = item.Roles.Split('#');
         }
+
+
 
     }
 }

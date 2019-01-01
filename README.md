@@ -2,9 +2,18 @@
 A collection of miscellaneous stuff about Asp.Net: small sample projects, demos, code snippets, etc.
 
 ## OWIN Auth Sample
-A sample about using OWIN authentication without Asp.Net identity.   
+A simple example about using OWIN authentication without Asp.Net identity.  
+The web-app uses Google and Microsoft authentication.   
 ...   
 ...   
+...   
+Tips:  
+- old application seem not working with Owin 4.0.0 - https://github.com/aspnet/AspNetKatana/issues/212
+
+Links:  
+- Google Developer Console - https://console.developers.google.com
+- Microsoft Application Registration Portal - https://apps.dev.microsoft.com/
+- How to setup MSFT application: https://docs.microsoft.com/en-us/aspnet/core/security/authentication/social/microsoft-logins
 
 ## Inject Values in Web.Config
 Sample about how to modify/inject values in web.config `<appSettings>` and `<connectionStrings>` at application start-up.

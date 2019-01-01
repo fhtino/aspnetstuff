@@ -17,9 +17,9 @@
                     <td valign="top">
                         <table cellpadding="5" style="font-size: 14px;">
                             <tr>
-                                <td><a href="default.aspx">HOME</a></td>
-                                <td><a href="adminarea/default.aspx">Admin Area</a></td>
-                                <td><a href="userarea/default.aspx">User Area</a></td>
+                                <td><a href="/default.aspx">HOME</a></td>
+                                <td><a href="/adminarea/default.aspx">Admin Area</a></td>
+                                <td><a href="/userarea/default.aspx">User Area</a></td>
                                 <td><a href="/login.aspx">Login</a></td>
                                 <td><a href="/logout.aspx">Logout</a></td>
                             </tr>

@@ -26,6 +26,8 @@ namespace OwinAuthSimple
                     _fakeRoleDB = new FakeRoleDB(ConfigurationManager.AppSettings["FakeUsersDBFile"]);
                 }
 
+                var xxx = ci.FindFirst(ClaimTypes.Expired).Value;
+
                 string uniqueID = null;
                 string[] roles = null;
                 _fakeRoleDB.GetUserIDandRoles(
@@ -39,11 +41,6 @@ namespace OwinAuthSimple
                     ci.AddClaim(new Claim("myUID", uniqueID));
                     ci.AddClaims(roles.Select(role => new Claim(ClaimTypes.Role, role)));
                     ci.AddClaim(new Claim("utcnow-debug", DateTime.UtcNow.ToString("o")));
-                }
-                else
-                {
-                    context.Authentication.SignOut();
-                    context.Response.Redirect("/notauthorized.aspx");
                 }
             }
 
