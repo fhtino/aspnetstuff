@@ -26,7 +26,7 @@ namespace OwinAuthSimple
                     _fakeRoleDB = new FakeRoleDB(ConfigurationManager.AppSettings["FakeUsersDBFile"]);
                 }
 
-                var xxx = ci.FindFirst(ClaimTypes.Expired).Value;
+                //var email = ci.FindFirst(ClaimTypes.Expired).Value;
 
                 string uniqueID = null;
                 string[] roles = null;
