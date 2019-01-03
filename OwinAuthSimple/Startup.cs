@@ -38,7 +38,7 @@ namespace OwinAuthSimple
                 {
                     OnAuthenticated = context =>
                     {
-                        context.Identity.AddClaim(new Claim(MyConstants.MyClaimdProviderID, "Google"));
+                        context.Identity.AddClaim(new Claim(MyClaims.MyProviderID, "Google"));
                         return Task.FromResult<object>(null);
                     }
                 }
@@ -54,7 +54,7 @@ namespace OwinAuthSimple
                 {
                     OnAuthenticated = context =>
                     {
-                        context.Identity.AddClaim(new Claim(MyConstants.MyClaimdProviderID, "Microsoft"));
+                        context.Identity.AddClaim(new Claim(MyClaims.MyProviderID, "Microsoft"));
                         return Task.FromResult<object>(null);
                     }
                 }
@@ -63,7 +63,7 @@ namespace OwinAuthSimple
 
 
             // --- add roles ---
-            app.Use(SimpleAddRoles.AddRoleAndSID)                 // <--- add my roles & information
+            app.Use(SimpleAddRoles.Exec)                 // <--- add my roles & information
                .UseStageMarker(PipelineStage.PostAuthenticate);   // <--- very important. Roles must be added after authentication.
         }
 

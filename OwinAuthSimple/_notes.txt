@@ -1,0 +1,2 @@
+﻿Interesting articles:
+ - https://weblog.west-wind.com/posts/2015/Apr/29/Adding-minimal-OWIN-Identity-Authentication-to-an-Existing-ASPNET-MVC-Application
