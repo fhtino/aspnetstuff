@@ -63,7 +63,7 @@ namespace OwinAuthSimple
 
 
             // --- add roles ---
-            app.Use(SimpleAddRoles.Exec)                 // <--- add my roles & information
+            app.Use(SimpleAddUserInfoAndRoles.Exec)                 // <--- add my roles & information
                .UseStageMarker(PipelineStage.PostAuthenticate);   // <--- very important. Roles must be added after authentication.
         }
 

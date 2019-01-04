@@ -105,7 +105,7 @@
       <DependentUpon>default.aspx</DependentUpon>
     </Compile>
     <Compile Include="code\MyClaims.cs" />
-    <Compile Include="code\SimpleAddRoles.cs" />
+    <Compile Include="code\SimpleAddUserInfoAndRoles.cs" />
     <Compile Include="default.aspx.cs">
       <DependentUpon>default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Xml.Serialization;
 
+
 namespace OwinAuthSimple
 {
-    public class SimpleAddRoles
+
+    public class SimpleAddUserInfoAndRoles
     {
-
-
 
         public static Task Exec(IOwinContext context, Func<Task> next)
         {
@@ -24,7 +24,6 @@ namespace OwinAuthSimple
             {
                 // The user is authenticated using an authentication-provider but "my" claims are missing.
                 // Adding my claims: id, roles, etc. and call LogIn() again.
-
 
                 // Load "database"
                 string dataXmlFileName = ConfigurationManager.AppSettings["FakeUsersDBFile"];
@@ -52,13 +51,14 @@ namespace OwinAuthSimple
                 item.LastLoginDT = DateTime.UtcNow;
                 item.Name = ci.FindFirst(ClaimTypes.Name)?.Value;
                 item.Email = ci.FindFirst(ClaimTypes.Email)?.Value;
-                //...
                 Save(dbItems, dataXmlFileName);
 
                 // update Claims and Login
                 ci.AddClaim(new Claim(MyClaims.MyUID, item.UniqueID));
                 ci.AddClaim(new Claim("utcnow-debug", DateTime.UtcNow.ToString("o")));
                 ci.AddClaims(item.Roles.Split('#').Select(role => new Claim(ClaimTypes.Role, role)));
+
+                // login again
                 context.Authentication.SignIn(ci);    // create a new authentication cookie with the new data added to the ClaimsIdentity
             }
 
@@ -112,8 +112,6 @@ namespace OwinAuthSimple
 
             [XmlAttribute]
             public DateTime LastLoginDT { get; set; }
-
-
         }
         // ----------------------------------------------------
 
