@@ -4,8 +4,7 @@ A collection of miscellaneous stuff about Asp.Net: small sample projects, demos,
 ## OWIN Auth Sample
 A simple example about using OWIN authentication without Asp.Net identity.  
 The web-app uses Google and Microsoft authentication.   
-...   
-...   
+There is also a custom extension for adding roles and storing user information in a fake database.  
 ...   
 Tips:  
 - old application seem not working with Owin 4.0.0 - https://github.com/aspnet/AspNetKatana/issues/212
