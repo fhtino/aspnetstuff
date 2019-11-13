@@ -20,3 +20,15 @@ To automatically run the code, there are two options:
  - use the PreApplicationStartMethod attribute on the web-application assembly
  - call the code from global.asax --> Application_Start
 
+## WebApi2Simple
+Web API 2 sample application. It contatins only required libraries.
+Swagger installed for debug / testing.
+Apis:
+ - Car : classic get, post, put, delete
+ - Operations : "operation" style, to mimic soap services operations
+ - Data : ...
+   
+  
+
+
+

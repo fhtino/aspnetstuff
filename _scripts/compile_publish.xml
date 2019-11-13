@@ -1,0 +1,18 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <MyPubPath>$(MSBuildThisFileDirectory)\out_compile</MyPubPath>
+    <MyCommonDeploy>Configuration=Release;DeployOnBuild=true;WebPublishMethod=FileSystem;DeployTarget=WebPublish;ExcludeFilesFromDeployment=packages.config;web.config;DeleteExistingFiles=True;</MyCommonDeploy>
+  </PropertyGroup>
+
+  <Target Name="Lavorare">
+    <Message Text="-------------------------"/>
+    <Message Text="MyPubPath=$(MyPubPath)"/>
+    <Message Text="-------------------------"/>
+
+    <MSBuild Projects="..\AspNetStuff.sln"                                         Targets="Clean" Properties="Configuration=Release;" />
+    <MSBuild Projects="..\InjectValuesInWebConfig\InjectValuesInWebConfig.csproj"  Targets="Build" Properties="publishUrl=$(MyPubPath)\InjectValuesInWebConfig\;$(MyCommonDeploy)" />
+    <MSBuild Projects="..\OwinAuthSimple\OwinAuthSimple.csproj"                    Targets="Build" Properties="publishUrl=$(MyPubPath)\OwinAuthSimple\;$(MyCommonDeploy)" />
+  </Target>
+
+</Project>
