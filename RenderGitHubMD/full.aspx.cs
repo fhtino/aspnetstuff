@@ -12,7 +12,7 @@ namespace RenderGitHubMD
         protected void Page_Load(object sender, EventArgs e)
         {
             string imgid = Request["imgid"];
-            string mdUrl = "https://github.com/fhtino/azure-datalake2-stuff/blob/master/FakeDataProducer/README.md";
+            string mdUrl = "https://github.com/fhtino/aspnetstuff/blob/master/RenderGitHubMD/mdsample/sample1.md";
             var githubMDProxy = new GitHubMDProxy(mdUrl);
 
             if (imgid == null)
@@ -25,6 +25,8 @@ namespace RenderGitHubMD
                     Cache.Insert(cacheKey, htmlFragment, null, DateTime.UtcNow.AddMinutes(10), System.Web.Caching.Cache.NoSlidingExpiration);
                 }
                 ContentDiv.InnerHtml = htmlFragment;
+                LinkToSource.NavigateUrl = mdUrl;
+                LinkToSource.Text = mdUrl;
             }
             else
             {

@@ -49,10 +49,10 @@ namespace Fake
 
 ### Table
 
-|First Name|Last Name|
-|---|---|
-|John|Doe|
-|Jane|Doe|
+| First Name| Last Name |
+| --- | --- |
+| John | Doe |
+| Jane | Doe |
 
 ### Images
 

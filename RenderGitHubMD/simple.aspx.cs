@@ -11,7 +11,7 @@ namespace RenderGitHubMD
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            string mdUrl = "https://github.com/fhtino/azure-datalake2-stuff/blob/master/FakeDataProducer/README.md";
+            string mdUrl = "https://github.com/fhtino/aspnetstuff/blob/master/RenderGitHubMD/mdsample/sample1.md";
             var githubMDProxy = new GitHubMDProxy(mdUrl);
             ContentDiv.InnerHtml = githubMDProxy.GetHtml(null).Result;
         }
