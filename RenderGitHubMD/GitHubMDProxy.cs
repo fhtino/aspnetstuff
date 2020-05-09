@@ -8,16 +8,16 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web;
+
 
 namespace RenderGitHubMD
 {
     public class GitHubMDProxy
     {
         // URL example:
-        // https://github.com                /fhtino/azure-stuff/blob/master /SimpleAppInsightsHtmlReport/README.md
-        // https://raw.githubusercontent.com /fhtino/azure-stuff/master      /SimpleAppInsightsHtmlReport/README.md
-        // https://raw.githubusercontent.com /fhtino/azure-stuff/master      /SimpleAppInsightsHtmlReport/
+        // https://github.com                /fhtino/aspnetstuff /blob/master /RenderGitHubMD/mdsample/sample1.md
+        // https://raw.githubusercontent.com /fhtino/aspnetstuff /master      /RenderGitHubMD/mdsample/sample1.md
+        // https://raw.githubusercontent.com /fhtino/aspnetstuff /master      /RenderGitHubMD/mdsample/
 
 
         private string _sourceMDUrl;
@@ -28,7 +28,8 @@ namespace RenderGitHubMD
         public GitHubMDProxy(string sourceMDUrl)
         {
             _sourceMDUrl = sourceMDUrl;
-            _rawSourceMDUrl = _sourceMDUrl.Replace("/github.com/", "/raw.githubusercontent.com/").Replace("/blob/master/", "/master/");
+            _rawSourceMDUrl = _sourceMDUrl.Replace("/github.com/", "/raw.githubusercontent.com/")
+                                          .Replace("/blob/master/", "/master/");
             _rawBaseSourceUrl = _rawSourceMDUrl.Substring(0, _rawSourceMDUrl.LastIndexOf('/') + 1);
         }
 
@@ -36,13 +37,13 @@ namespace RenderGitHubMD
         public async Task<string> GetHtml(string localGetImgRelativeURI)
         {
             var httpClient = new HttpClient();
-            string md = await httpClient.GetStringAsync(_rawSourceMDUrl).ConfigureAwait(false);
-            var pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
-            var parser = MarkdownParser.Parse(md, pipeline);
-            var sw = new StringWriter();
-            var htmlRenderer = new HtmlRenderer(sw);
-            htmlRenderer.BaseUrl = new Uri(_rawBaseSourceUrl);
+            string mdBody = await httpClient.GetStringAsync(_rawSourceMDUrl).ConfigureAwait(false);
 
+            var pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
+            var document = MarkdownParser.Parse(mdBody, pipeline);
+
+            var htmlRenderer = new HtmlRenderer(new StringWriter());
+            htmlRenderer.BaseUrl = new Uri(_rawBaseSourceUrl);
             if (localGetImgRelativeURI != null)
             {
                 htmlRenderer.LinkRewriter = (oldlink) =>
@@ -58,10 +59,13 @@ namespace RenderGitHubMD
                 };
             }
 
-            htmlRenderer.Render(parser);
-            sw.Flush();
-            return sw.ToString();
+            pipeline.Setup(htmlRenderer);
+            htmlRenderer.Render(document);
+            htmlRenderer.Writer.Flush();
+
+            return htmlRenderer.Writer.ToString();
         }
+
 
         public async Task<Tuple<byte[], string>> GetImage(string imgID)
         {

@@ -1,9 +1,13 @@
 ﻿# Html redering of a GitHub MD file
-...  
-Asp.Net (.NET Framework) project
-...  
-Using Markdig  https://github.com/lunet-io/markdig
+This sample shows how to retrieve a MD file from GitHub, render it locally to HTML using Markdig library and then show it as a web page. The project is Asp.Net (.NET Framework). The logic can be adapted to Asp.Net Core (...todo).
 
-Prism  https://prismjs.com/
+ - simple.aspx : it gets the content from GitHub and renders it to html. Images are left on GitHub and referenced as &lt;img href=""&gt;
+ - full.aspx : full solution with local caching of html and images and use of PrismJS for syntax highlighting of code blocks.
+
+
+Links:
+ - Markdig  https://github.com/lunet-io/markdig
+ - Prism  https://prismjs.com/
+
 
 

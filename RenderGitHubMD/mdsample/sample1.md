@@ -47,15 +47,15 @@ namespace Fake
 }
 ```
 
-### Table
+## Table
 
-| First Name| Last Name |
-| --- | --- |
-| John | Doe |
-| Jane | Doe |
+| First Name| Last Name |Age|
+| --- | --- | --- |
+| John | Doe | 45 |
+| Jane | Doe | 43 |
 
-### Images
+## Images
 
 ![Picture2](Picture2.jpg)  
 ![Picture3](Picture3.jpg)  
-![Picture1](Picture1.jpg)  
+

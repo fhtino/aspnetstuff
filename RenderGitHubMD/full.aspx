@@ -1,10 +1,30 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="full.aspx.cs" Inherits="RenderGitHubMD.full" %>
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title></title>
     <link href="style.css" rel="stylesheet" />
     <link href="prism.css" rel="stylesheet" />
+    <style>
+        #ContentDiv table {
+            border-collapse: collapse;
+        }
+
+        #ContentDiv tr {
+        }
+
+        #ContentDiv th {
+            background-color: lightskyblue;
+            border: 1px solid black;
+            padding: 6px;
+        }
+
+        #ContentDiv td {            
+            border: 1px solid black;
+            padding: 6px;
+        }
+    </style>
 </head>
 <body>
     <form id="form1" runat="server">
