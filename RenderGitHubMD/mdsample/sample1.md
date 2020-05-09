@@ -5,7 +5,30 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. In eu facilisis dui, eu
 ### Title3
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. In eu facilisis dui, eu vestibulum nunc. Duis pharetra at odio non consequat. Phasellus euismod commodo volutpat. Proin non velit ligula. Etiam tincidunt diam a justo volutpat porta. Suspendisse vitae tellus sit amet metus mattis auctor.
 
-## Code
+| First Name| Last Name |Age|
+| --- | --- | --- |
+| John | Doe | 45 |
+| Jane | Doe | 43 |
+
+![Picture3](Picture3.jpg)  
+
+### C#
+```csharp
+using System;
+using System.IO;
+namespace Fake
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Hello world");
+        }
+    }
+}
+```
+
+## Other code blocks
 
 ### Json
 ```json
@@ -30,32 +53,9 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. In eu facilisis dui, eu
 </html>
 ```
 
-
-### C#
-```csharp
-using System;
-using System.IO;
-namespace Fake
-{
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Hello world");
-        }
-    }
-}
-```
-
-## Table
-
-| First Name| Last Name |Age|
-| --- | --- | --- |
-| John | Doe | 45 |
-| Jane | Doe | 43 |
-
-## Images
+<br/>   
+<br/>
+<br/>
 
 ![Picture2](Picture2.jpg)  
-![Picture3](Picture3.jpg)  
 
