@@ -9,5 +9,7 @@ Links:
  - Markdig  https://github.com/lunet-io/markdig
  - Prism  https://prismjs.com/
 
+Output example [sample1.md](mdsample/sample1.md):
 
+![Output1](imgs/output1.png)
 

@@ -89,6 +89,7 @@
     <Content Include="mdsample\Picture1.jpg" />
     <Content Include="mdsample\Picture2.jpg" />
     <Content Include="mdsample\Picture3.jpg" />
+    <Content Include="imgs\output1.png" />
     <Content Include="prism.css" />
     <Content Include="prism.js" />
     <Content Include="simple.aspx" />
