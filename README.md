@@ -34,7 +34,7 @@ Render MD files from GitHub using Markdig and show in asp.net page
 
 
 ## Asp.Net Big file upload experiments
-Using javascript to upload big files, dividing them in chunks, to asp.net site.   
+Using javascript to upload big files to asp.net website, dividing files in variable length chunks, dynamically adapting to available bandwidth.
 Details here: [AspNet big files - README.md](AspNetBigFiles_common/README.md)
 
 

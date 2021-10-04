@@ -4,6 +4,7 @@
 
 Key points:
  - big files file upload using javascript : original file splitted in chunks and uploaded sequentially
+ - chunk-size dynamically adapats to the available bandwidth: size is recalculated on every connection
  - server-side uploaded files rebuilt from incoming chunks
  - server-side implemenations:
    - Asp.Net Core 3.1 : razor / api controller
