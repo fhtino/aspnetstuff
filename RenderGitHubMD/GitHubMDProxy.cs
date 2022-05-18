@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace RenderGitHubMD
 {
+
     public class GitHubMDProxy
     {
         // URL example:
@@ -29,7 +30,8 @@ namespace RenderGitHubMD
         {
             _sourceMDUrl = sourceMDUrl;
             _rawSourceMDUrl = _sourceMDUrl.Replace("/github.com/", "/raw.githubusercontent.com/")
-                                          .Replace("/blob/master/", "/master/");
+                                          .Replace("/blob/master/", "/master/")
+                                          .Replace("/blob/main/", "/main/");
             _rawBaseSourceUrl = _rawSourceMDUrl.Substring(0, _rawSourceMDUrl.LastIndexOf('/') + 1);
         }
 
@@ -43,30 +45,40 @@ namespace RenderGitHubMD
             var document = MarkdownParser.Parse(mdBody, pipeline);
 
             var htmlRenderer = new HtmlRenderer(new StringWriter());
-            htmlRenderer.BaseUrl = new Uri(_rawBaseSourceUrl);
-            if (localGetImgRelativeURI != null)
-            {
-                htmlRenderer.LinkRewriter = (oldlink) =>
-                {
-                    if (oldlink.StartsWith(_rawBaseSourceUrl))
-                    {
-                        return localGetImgRelativeURI + Convert.ToBase64String(Encoding.UTF8.GetBytes(oldlink.Replace(_rawBaseSourceUrl, "")));
-                    }
-                    else
-                    {
-                        return oldlink;
-                    }
-                };
-            }
+
+            // Old approach for building local images url.
+            // Removed because it does not manage explicit <img> tag inside MD files
+            // 
+            //htmlRenderer.BaseUrl = new Uri(_rawBaseSourceUrl);
+            //if (localGetImgRelativeURI != null)
+            //{
+            //    htmlRenderer.LinkRewriter = (oldlink) =>
+            //    {
+            //        if (oldlink.StartsWith(_rawBaseSourceUrl))
+            //        {
+            //            return localGetImgRelativeURI + Convert.ToBase64String(Encoding.UTF8.GetBytes(oldlink.Replace(_rawBaseSourceUrl, "")));
+            //        }
+            //        else
+            //        {
+            //            return oldlink;
+            //        }
+            //    };
+            //}
 
             pipeline.Setup(htmlRenderer);
             htmlRenderer.Render(document);
             htmlRenderer.Writer.Flush();
+            string htmlBody = htmlRenderer.Writer.ToString();
 
-            return htmlRenderer.Writer.ToString();
+            htmlBody = await SetImgUrls(htmlBody, localGetImgRelativeURI);
+
+            return htmlBody;
         }
 
 
+        /// <summary>
+        /// Get image bytes from GitHub
+        /// </summary>
         public async Task<Tuple<byte[], string>> GetImage(string imgID)
         {
             string imgRelativePath = Encoding.UTF8.GetString(Convert.FromBase64String(imgID));
@@ -76,6 +88,37 @@ namespace RenderGitHubMD
             byte[] imgBody = await httpResp.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
             return new Tuple<byte[], string>(imgBody, contentType);
         }
+
+
+        /// <summary>
+        /// Update <img src> url
+        /// </summary>
+        private async Task<string> SetImgUrls(string htmlBody, string localGetImgRelativeURI)
+        {
+            await Task.CompletedTask;
+
+            var htmlDoc = new HtmlAgilityPack.HtmlDocument();
+            htmlDoc.LoadHtml(htmlBody);
+
+            var imgItems = htmlDoc.DocumentNode.SelectNodes("//img").ToList();
+            foreach (var imgItem in imgItems)
+            {
+                string urlSrc = imgItem.Attributes["src"].Value;
+                if (urlSrc != null)
+                {
+                    if (!urlSrc.ToLower().StartsWith("http"))
+                    {
+                        string newImgSrc = localGetImgRelativeURI + Convert.ToBase64String(Encoding.UTF8.GetBytes(urlSrc));
+                        imgItem.Attributes["src"].Value = newImgSrc;
+                    }
+                }
+            }
+
+            var sw = new StringWriter();
+            htmlDoc.Save(sw);
+            return sw.ToString();
+        }
+
 
     }
 

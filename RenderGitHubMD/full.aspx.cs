@@ -13,11 +13,12 @@ namespace RenderGitHubMD
         {
             string imgid = Request["imgid"];
             string mdUrl = "https://github.com/fhtino/aspnetstuff/blob/master/RenderGitHubMD/mdsample/sample1.md";
+
             var githubMDProxy = new GitHubMDProxy(mdUrl);
 
             if (imgid == null)
             {
-                string cacheKey = "my-html-"+ mdUrl;
+                string cacheKey = "my-html-" + mdUrl;
                 string htmlFragment = Cache[cacheKey] as string;
                 if (htmlFragment == null)
                 {

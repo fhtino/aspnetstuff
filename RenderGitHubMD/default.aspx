@@ -10,9 +10,9 @@
     <form id="form1" runat="server">
         <div>
             <br />
-            <a href="simple.aspx">Simple version</a><br />
+            <a href="simple.aspx">Simple version (no caching, no PrismJS)</a><br />
             <br />
-            <a href="full.aspx">Full version (with local caching)</a><br />
+            <a href="full.aspx">Full version (caching + PrimsJS)</a><br />
             <br />
         </div>
     </form>
