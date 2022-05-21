@@ -100,16 +100,19 @@ namespace RenderGitHubMD
             var htmlDoc = new HtmlAgilityPack.HtmlDocument();
             htmlDoc.LoadHtml(htmlBody);
 
-            var imgItems = htmlDoc.DocumentNode.SelectNodes("//img").ToList();
-            foreach (var imgItem in imgItems)
+            var imgItems = htmlDoc.DocumentNode.SelectNodes("//img")?.ToList();
+            if (imgItems != null)
             {
-                string urlSrc = imgItem.Attributes["src"].Value;
-                if (urlSrc != null)
+                foreach (var imgItem in imgItems)
                 {
-                    if (!urlSrc.ToLower().StartsWith("http"))
+                    string urlSrc = imgItem.Attributes["src"].Value;
+                    if (urlSrc != null)
                     {
-                        string newImgSrc = localGetImgRelativeURI + Convert.ToBase64String(Encoding.UTF8.GetBytes(urlSrc));
-                        imgItem.Attributes["src"].Value = newImgSrc;
+                        if (!urlSrc.ToLower().StartsWith("http"))
+                        {
+                            string newImgSrc = localGetImgRelativeURI + Convert.ToBase64String(Encoding.UTF8.GetBytes(urlSrc));
+                            imgItem.Attributes["src"].Value = newImgSrc;
+                        }
                     }
                 }
             }
