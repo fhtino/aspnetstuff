@@ -6,7 +6,10 @@ A simple example about using OWIN authentication without Asp.Net identity.
 The web-app uses Google and Microsoft authentication.   
 There is also a custom extension for adding roles and storing user information in a fake database.  
 ...   
+
 Tips:  
+- Starting from Owin 4.1.0, autethentication only works on https connections:
+https://github.com/aspnet/AspNetKatana/issues/341#issuecomment-600905630 
 - old application seem not working with Owin 4.0.0 - https://github.com/aspnet/AspNetKatana/issues/212
 
 Links:  
