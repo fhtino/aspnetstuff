@@ -8,10 +8,13 @@
 </head>
 <body>
     <form id="form1" runat="server">
-        <div>
-            Hello world<br />
-            <br />
+        <div style="font-family: 'Courier New'">
             <%=DateTime.UtcNow.ToString("O")%>
+            <br />
+            <br />
+            <br />
+            <strong>ThreadPool:</strong><br />
+            <asp:Label ID="LblMsg" runat="server" Text="Label"></asp:Label>
         </div>
     </form>
 </body>
