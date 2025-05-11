@@ -1,11 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 
 namespace WebRazor.Api
@@ -16,21 +14,51 @@ namespace WebRazor.Api
     public class FileUploadController : ControllerBase
     {
 
-        [HttpGet]
+        [HttpGet("Index")]
         public string Index()
         {
             return "FileUpload-API : Hello, world!";
         }
 
 
-        [HttpPost]
-        public async Task<string> UploadChunk()
+        [HttpGet]
+        public string GetFileLength([FromQuery] string uploadGuid)
         {
-            string uploadguid = Request.Query["uploadguid"];
-            long position = long.Parse(Request.Query["position"]);
+            if (string.IsNullOrWhiteSpace(uploadGuid))
+            {
+                Response.StatusCode = 400;
+                return $"error: 'uploadGuid is required'";
+            }
+
+            string fileName = Path.Combine(@"C:\temp\upload", Path.GetFileName(uploadGuid));
+            long length = -1; // -1 in case file does not exists on server
+
+            if (System.IO.File.Exists(fileName))
+            {
+                length = new FileInfo(fileName).Length;
+            }
+
+            return $"{length}";
+        }
+
+
+        [HttpPost]
+        public async Task<string> UploadChunk([FromQuery] string uploadGuid, [FromQuery] long position)
+        {
+            if (string.IsNullOrWhiteSpace(uploadGuid))
+            {
+                Response.StatusCode = 400;
+                return $"error: 'uploadGuid is required'";
+            }
+
+            if (position < 0)
+            {
+                Response.StatusCode = 400;
+                return $"error: 'position must be >= 0'";
+            }
 
             // appent to file
-            string fileName = Path.Combine(@"C:\temp\upload", Path.GetFileName(uploadguid));
+            string fileName = Path.Combine(@"C:\temp\upload", Path.GetFileName(uploadGuid));
 
 
             if (System.IO.File.Exists(fileName) && position == 0)
@@ -53,7 +81,7 @@ namespace WebRazor.Api
 
             //throw new ApplicationException();
 
-            return $"Data_on_server:  pos={position} guid={uploadguid}";
+            return $"Data_on_server:  pos={position} guid={uploadGuid}";
         }
 
     }
