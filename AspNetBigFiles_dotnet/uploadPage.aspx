@@ -28,11 +28,16 @@
                 }
                 function PostFileUploadERR() {
                     alert("postfileupload funciton ERROR");
+                    document.getElementById("buttonSubmit").style.visibility = "visible";
+                    document.getElementById("buttonStop").style.visibility = "hidden";
+                    document.getElementById("divProgress").style.visibility = "collapse";
                 }
             </script>
 
-            <input id="buttonSubmit" type="button" value="Submit" onclick="SendFile('/uploadHandler.ashx', PostFileUploadOK, PostFileUploadERR); return false;" /><br />
+            <input id="buttonSubmit" type="button" value="Submit" onclick="SendFile('/uploadHandler.ashx', PostFileUploadOK, PostFileUploadERR); return false;" />
             <br />
+            <br />
+            <button id="buttonStop" type="button" style="visibility: hidden">Stop</button>
         </div>
     </form>
 </body>
