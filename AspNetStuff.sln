@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.10.35013.160
+# Visual Studio Version 18
+VisualStudioVersion = 18.3.11505.172
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OwinAuthSimple", "OwinAuthSimple\OwinAuthSimple.csproj", "{6C872DBF-28F1-4902-A963-16DC069434D5}"
 EndProject
@@ -30,6 +30,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncWeb", "AsyncWeb\AsyncWeb.csproj", "{709BCF66-5DCB-4223-8FE9-881D7A22AAC1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncClient", "AsyncClient\AsyncClient.csproj", "{1ACAAC8A-DC31-4DB5-A854-C31979476D0F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoapLikeServer", "SoapLikeServer\SoapLikeServer.csproj", "{6B50FC61-1B99-49A9-97A4-E900D0642364}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoapLikeClient", "SoapLikeClient\SoapLikeClient.csproj", "{586D4B28-341F-47CA-BAAA-E5A36A4CB6F6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +73,14 @@ Global
 		{1ACAAC8A-DC31-4DB5-A854-C31979476D0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1ACAAC8A-DC31-4DB5-A854-C31979476D0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1ACAAC8A-DC31-4DB5-A854-C31979476D0F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B50FC61-1B99-49A9-97A4-E900D0642364}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B50FC61-1B99-49A9-97A4-E900D0642364}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B50FC61-1B99-49A9-97A4-E900D0642364}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B50FC61-1B99-49A9-97A4-E900D0642364}.Release|Any CPU.Build.0 = Release|Any CPU
+		{586D4B28-341F-47CA-BAAA-E5A36A4CB6F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{586D4B28-341F-47CA-BAAA-E5A36A4CB6F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{586D4B28-341F-47CA-BAAA-E5A36A4CB6F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{586D4B28-341F-47CA-BAAA-E5A36A4CB6F6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
