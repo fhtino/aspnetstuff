@@ -36,6 +36,8 @@ namespace SoapLikeClient
 
         public SetBigDataResponse SetBigData(SetBigData req) { return (SetBigDataResponse)DoHtppCall("SetBigData", req, typeof(SetBigDataResponse)); }
 
+        public FakeCalculateResponse FakeCalculate(FakeCalculateRequest req) { return (FakeCalculateResponse)DoHtppCall("FakeCalculate", req, typeof(FakeCalculateResponse)); }
+
 
         // -----------------------
         // --- Private methods ---

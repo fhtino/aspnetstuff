@@ -80,4 +80,17 @@ namespace SharedObjects
         public int ReceivedDataSize { get; set; }
     }
 
+
+    public class FakeCalculateRequest : SLActionBaseRequest
+    {
+        public int Time { get; set; }
+        public bool Load { get; set; }
+    }
+
+    public class FakeCalculateResponse : SLActionBaseResponse
+    {
+        public double ElapsedTime { get; set; }
+        public long DataCounter { get; set; }
+    }
+
 }

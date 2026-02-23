@@ -1,15 +1,11 @@
 ﻿using SharedObjects;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
+using System.Diagnostics;
 using System.Threading.Tasks;
-using System.Web;
+
 
 namespace SoapLikeServer
 {
-
-
 
     public class Logic
     {
@@ -86,12 +82,42 @@ namespace SoapLikeServer
         {
             if (!ValidateAuthToken()) return new SetBigDataResponse() { ErrorCode = 999 };
 
-            await Task.CompletedTask;           
+            await Task.CompletedTask;
 
             return new SetBigDataResponse
             {
                 ErrorCode = -1,
                 ReceivedDataSize = request.Data?.Length ?? 0
+            };
+        }
+
+
+        [API]
+        public async Task<FakeCalculateResponse> FakeCalculate(FakeCalculateRequest request)
+        {
+            var sw = Stopwatch.StartNew();
+            long dataCounter = 0;
+
+            if (request.Time > 10) return new FakeCalculateResponse { ErrorCode = 123, ElapsedTime = 0 }; // too much time requested
+
+            if (request.Load)
+            {
+                while (sw.Elapsed.TotalSeconds < request.Time)
+                {
+                    // 100% cpu-core load                  
+                    dataCounter++;
+                }
+            }
+            else
+            {
+                await Task.Delay(request.Time * 1000);
+            }
+
+            return new FakeCalculateResponse
+            {
+                ErrorCode = -1,
+                ElapsedTime = sw.Elapsed.TotalSeconds,
+                DataCounter = dataCounter
             };
         }
 
