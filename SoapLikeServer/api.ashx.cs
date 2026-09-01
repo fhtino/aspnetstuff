@@ -19,11 +19,22 @@ namespace SoapLikeServer
 
     public class api : HttpTaskAsyncHandler
     {
+        
+        private const long MaxRequestBodyBytes = 10 * 1024 * 1024; // 10 MB, keep aligned with MaxCharactersInDocument
+
 
         public override async Task ProcessRequestAsync(HttpContext context)
         {
             string authData = context.Request.Headers["SL-Authorization"];
             string actionName = context.Request.Headers["SL-ActionName"];
+
+            // Fast rejection when Content-Length is too large.
+            if (context.Request.ContentLength > MaxRequestBodyBytes)
+            {
+                context.Response.StatusCode = 413; // Payload Too Large
+                context.Response.Write("Request body too large.\n\n");
+                return;
+            }
 
             if (String.IsNullOrEmpty(actionName))
             {
@@ -92,7 +103,7 @@ namespace SoapLikeServer
                 DtdProcessing = System.Xml.DtdProcessing.Prohibit,
                 XmlResolver = null,
                 MaxCharactersFromEntities = 1024,
-                MaxCharactersInDocument = 10 * 1024 * 1024
+                MaxCharactersInDocument = MaxRequestBodyBytes
             };
 
             using (var reader = System.Xml.XmlReader.Create(inputStream, settings))
