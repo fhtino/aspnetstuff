@@ -11,12 +11,12 @@ using System.Web.Services.Description;
 namespace SoapLikeServer
 {
 
-    public class Logic
+    public class APILogic
     {
 
         private string _authToken;
 
-        public Logic(string authToken)
+        public APILogic(string authToken)
         {
             _authToken = authToken;
         }
@@ -129,6 +129,8 @@ namespace SoapLikeServer
         [API]
         public async Task<LongWaitResponse> LongWait(LongWaitRequest request, CancellationToken ct)
         {
+            // experiments...
+
             var sw = Stopwatch.StartNew();
 
             if (false)
@@ -138,12 +140,11 @@ namespace SoapLikeServer
                 
             }
 
-
             if (true)
             {
                 while (true)
                 {
-                    await Task.Delay(1000);
+                    await Task.Delay(1000, ct);
                     if (sw.Elapsed.TotalSeconds >= request.Seconds) { break; }
 
                     string logFilePath = "c://temp//mylog.txt";
@@ -167,7 +168,7 @@ namespace SoapLikeServer
 
         private bool ValidateAuthToken()
         {
-            return !String.IsNullOrEmpty(_authToken);   // everything is fine, except empty or null tokens :)
+            return !String.IsNullOrEmpty(_authToken);   // this is just a placeholder: everything is fine, except empty or null tokens :)
         }
 
     }

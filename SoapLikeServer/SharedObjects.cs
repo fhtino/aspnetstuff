@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Xml.Serialization;
 
+
 namespace SharedObjects
 {
+
+    // These classes are shared between the server and the client. They contain the request and response classes for the API actions.
 
     public class SLActionBaseRequest
     {
@@ -27,6 +30,7 @@ namespace SharedObjects
         public int RequestSize { get; set; }
     }
 
+    // -----------------------------------------------------------------
 
     public class AuthRequest : SLActionBaseRequest
     {
@@ -39,12 +43,12 @@ namespace SharedObjects
         public string Token { get; set; }
     }
 
+    // -----------------------------------------------------------------
 
     public class GetWeatherRequest : SLActionBaseRequest
     {
         public string City { get; set; }
     }
-
 
     public class GetWeatherResponse : SLActionBaseResponse
     {
@@ -56,30 +60,31 @@ namespace SharedObjects
 
     }
 
+    // -----------------------------------------------------------------
 
     public class GetBigDataRequest : SLActionBaseRequest
     {
         public int DataSize { get; set; }
     }
 
-
     public class GetBigDataResponse : SLActionBaseResponse
     {
         public byte[] Data { get; set; }
     }
 
+    // -----------------------------------------------------------------
 
     public class SetBigData : SLActionBaseRequest
     {
         public byte[] Data { get; set; }
     }
 
-
     public class SetBigDataResponse : SLActionBaseResponse
     {
         public int ReceivedDataSize { get; set; }
     }
 
+    // -----------------------------------------------------------------
 
     public class FakeCalculateRequest : SLActionBaseRequest
     {
@@ -93,6 +98,7 @@ namespace SharedObjects
         public long DataCounter { get; set; }
     }
 
+    // -----------------------------------------------------------------
 
     public class  LongWaitRequest : SLActionBaseRequest
     {
@@ -104,5 +110,5 @@ namespace SharedObjects
         public double ElapsedTime { get; set; }
     }
 
-
+    // -----------------------------------------------------------------
 }

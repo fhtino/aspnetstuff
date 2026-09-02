@@ -8,7 +8,7 @@ namespace SoapLikeServer
 
     public class APIAttribute : Attribute
     {
-        public string Name { get; set; }
+        //public string Name { get; set; }
     }
 
 }

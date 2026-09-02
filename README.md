@@ -1,6 +1,22 @@
 # My Asp.Net stuff
 A collection of miscellaneous stuff about Asp.Net: small sample projects, demos, code snippets, etc.
 
+## SoapLikeServer and Client : a "soap-like" server and client 
+
+- SharedObjects between server and client
+- transparent xml serialization
+- Client:
+   - SimpleWrapper to expose api operations
+- Server:
+    - engine to process request and call api Logig using reflection
+    - APILogic (important: every method must check the cancellation token. Risk of never-ending tasks!!!)
+    - [API] attribute to identify methods to be accessible from API
+    - the same API is exposed using different techniques: 
+	  - HttpTaskAsyncHandler on ashx file
+	  - HttpTaskAsyncHandler, without ashx, with web.config handlers declaration
+	  - HttpTaskAsyncHandler, without ashx, with routing
+
+
 ## OWIN Auth Sample
 A simple example about using OWIN authentication without Asp.Net identity.  
 The web-app uses Google and Microsoft authentication.   
@@ -17,11 +33,13 @@ Links:
 - Microsoft Application Registration Portal - https://apps.dev.microsoft.com/
 - How to setup MSFT application: https://docs.microsoft.com/en-us/aspnet/core/security/authentication/social/microsoft-logins
 
+
 ## Inject Values in Web.Config
 Sample about how to modify/inject values in web.config `<appSettings>` and `<connectionStrings>` at application start-up.
 To automatically run the code, there are two options:
  - use the PreApplicationStartMethod attribute on the web-application assembly
  - call the code from global.asax --> Application_Start
+
 
 ## WebApi2Simple
 Web API 2 sample application. It contatins only required libraries.
@@ -29,9 +47,9 @@ Swagger installed for debug / testing.
 Apis:
  - Car : classic get, post, put, delete
  - Operations : "operation" style, to mimic soap services operations
- - Data : ...
-   
+ - Data : ...   
   
+
 ## Render GitHub MD file
 Render MD files from GitHub using Markdig and show in asp.net page
 

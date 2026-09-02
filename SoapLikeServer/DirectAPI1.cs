@@ -16,9 +16,6 @@ namespace SoapLikeServer
 
         public override async Task ProcessRequestAsync(HttpContext context)
         {
-            //var cts = new CancellationTokenSource(10 * 1000);
-            //var token = cts.Token;
-
             await new Engine().ProcessRequestAsync(context);
         }
 

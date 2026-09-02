@@ -20,10 +20,14 @@ namespace SoapLikeServer
         {
             var startDT = DateTime.UtcNow;
 
-            var ct = context.Request.TimedOutToken;
+            var timeoutToken = context.Request.TimedOutToken;  // this values should come from web.config/system.web/httpRuntime/@executionTimeout but sometimes it is not honored by IIS (unknown reason)
+                                                               // Alternative: declare explicit cancellation token:
+                                                               //     var timeoutToken = new CancellationTokenSource(10 * 1000).Token;  
 
+            // Read auth and action headers
             string authData = context.Request.Headers["SL-Authorization"];
             string actionName = context.Request.Headers["SL-ActionName"];
+            SimpleLog.WriteLine($"ActionName: {actionName}");
 
             // Fast rejection when Content-Length is too large.
             if (context.Request.ContentLength > MaxRequestBodyBytes)
@@ -33,21 +37,20 @@ namespace SoapLikeServer
                 return;
             }
 
+            // if no action name --> "hello world" message
             if (String.IsNullOrEmpty(actionName))
             {
                 context.Response.StatusCode = 200;
-                context.Response.Write($"Hello world. {DateTime.UtcNow.ToString("O")}\n\n");
+                context.Response.Write($"Hello world - {DateTime.UtcNow.ToString("O")}");
                 return;
-            }
-
-            WriteSimpleLog(actionName);
+            }            
 
             try
             {
                 // !!! Reflection here !!!
                 // We assume the method takes a single input parameter and return a Task<T> where T is the response type
 
-                var methodOnLogic = typeof(Logic).GetMethod(actionName);
+                var methodOnLogic = typeof(APILogic).GetMethod(actionName);
                 if (methodOnLogic == null)
                 {
                     context.Response.StatusCode = 404; // Not Found
@@ -66,11 +69,11 @@ namespace SoapLikeServer
                 var inputParameterType = methodOnLogic.GetParameters().FirstOrDefault()?.ParameterType;
                 var invocationTaskResultProperty = methodOnLogic.ReturnType.GetProperty("Result");   // This is the property .Result of Task<T> returned by method on Logic class
 
-                var logicInstance = new Logic(authData);               
+                var logicInstance = new APILogic(authData);
                 var trackingID = Guid.NewGuid().ToString();
 
                 var requestObject = DeserializeFromStream(context.Request.InputStream, inputParameterType);
-                var invocationTask = methodOnLogic.Invoke(logicInstance, new object[] { requestObject, ct });   // <<<== Invoke method!
+                var invocationTask = methodOnLogic.Invoke(logicInstance, new object[] { requestObject, timeoutToken });   // <<<== Invoke method!
                 await (Task)invocationTask;
 
                 var responseObject = invocationTaskResultProperty.GetValue(invocationTask) as SLActionBaseResponse;
@@ -86,23 +89,15 @@ namespace SoapLikeServer
             {
                 context.Response.StatusCode = 500; // Internal Server Error
                 context.Response.Write("Error processing the request.");
-                WriteSimpleLog(ex.ToString());
-                WriteSimpleLog("Elapsed time: " + (DateTime.UtcNow - startDT).TotalSeconds.ToString() + " s");
+                SimpleLog.WriteLine(ex.ToString());
+                SimpleLog.WriteLine("Elapsed time: " + (DateTime.UtcNow - startDT).TotalSeconds.ToString() + " s");
             }
-        }
-
-
-        private void WriteSimpleLog(string message)
-        {
-            string logFilePath = "c://temp//mylog.txt";
-            string logEntry = $"{DateTime.UtcNow.ToString("O")} - {message}\n";
-            File.AppendAllText(logFilePath, logEntry);
         }
 
 
         private object DeserializeFromStream(Stream inputStream, Type type)
         {
-            // Oo precent XXE attacks, we disable DTD processing and set XmlResolver to null.
+            // To prevent XXE attacks, we disable DTD processing and set XmlResolver to null.
             // We also set limits on the size of the XML document and the number of characters from entities.
             var settings = new System.Xml.XmlReaderSettings
             {
@@ -127,8 +122,6 @@ namespace SoapLikeServer
             xsn.Add(string.Empty, string.Empty);
             serializer.Serialize(outputStream, obj, xsn);
         }
-
-
 
     }
 }
