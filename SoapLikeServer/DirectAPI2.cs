@@ -10,16 +10,15 @@ namespace SoapLikeServer
     public class DirectAPI2 : HttpTaskAsyncHandler, IRouteHandler
     {
 
-        public override bool IsReusable => false;
+        // Not required. Already set to false inside HttpTaskAsyncHandler class.
+        // public override bool IsReusable => false;
 
-        public IHttpHandler GetHttpHandler(RequestContext requestContext) { return this; }
+        public IHttpHandler GetHttpHandler(RequestContext requestContext) { return this; }  // required by IRouteHandler interface
 
+        
         public override async Task ProcessRequestAsync(HttpContext context)
         {
-            await Task.CompletedTask;
-            context.Response.ContentType = "text/plain";
-            context.Response.Write($"DirectAPI_2: Hello world. {DateTime.UtcNow.ToString("O")}\n\n");
-            context.Response.StatusCode = 200;
+            await new Engine().ProcessRequestAsync(context);
         }
 
     }

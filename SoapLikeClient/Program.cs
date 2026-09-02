@@ -20,22 +20,48 @@ namespace SoapLikeClient
 
         static void Main(string[] args)
         {
-            StressAPI(); return;
+            //StressAPI(); return;
 
-            var client = new SimpleWrapper(URL);
+            var startDT = DateTime.UtcNow;
+            Console.WriteLine(startDT.ToString("O"));
 
-            var authResp = client.Authenticate(new AuthRequest() { UserName = "foo", Password = "bar" });
-            client.SetAuthToken(authResp.Token);
-            Console.WriteLine($"AuthToken:  {authResp.Token}");
+            try
+            {
+                var client = new SimpleWrapper(URL);
 
-            var response = client.GetWeather(new GetWeatherRequest { City = "New York" });
-            Console.WriteLine($"GetWeather: {response.Weather} - Temperature: {response.Temperature} - Messages: {string.Join(" + ", response.Messages)}");
+                var authResp = client.Authenticate(new AuthRequest() { UserName = "foo", Password = "bar" });
+                client.SetAuthToken(authResp.Token);
+                Console.WriteLine($"AuthToken:  {authResp.Token}");
 
-            var getBigDataResp = client.GetBigData(new GetBigDataRequest() { DataSize = 10 * 1024 * 1024 });
-            Console.WriteLine($"GetBigData: Length: {getBigDataResp.Data.Length}");
+                var response = client.GetWeather(new GetWeatherRequest { City = "New York" });
+                Console.WriteLine($"GetWeather: {response.Weather} - Temperature: {response.Temperature} - Messages: {string.Join(" + ", response.Messages)}");
 
-            var setBigDataResp = client.SetBigData(new SetBigData() { Data = new byte[7 * 1024 * 1024] });
-            Console.WriteLine($"SetBigData: Size: {setBigDataResp.ReceivedDataSize} HttpRequestSize: {setBigDataResp.RequestSize}\n");
+                var getBigDataResp = client.GetBigData(new GetBigDataRequest() { DataSize = 10 * 1024 * 1024 });
+                Console.WriteLine($"GetBigData: Length: {getBigDataResp.Data.Length}");
+
+                var setBigDataResp = client.SetBigData(new SetBigData() { Data = new byte[7 * 1024 * 1024] });
+                Console.WriteLine($"SetBigData: Size: {setBigDataResp.ReceivedDataSize} HttpRequestSize: {setBigDataResp.RequestSize}\n");
+
+                var longWaitResp = client.LongWait(new LongWaitRequest() { Seconds = 200 });
+                Console.WriteLine($"LongWait: ElapsedTime: {longWaitResp.ElapsedTime}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"\n\nEXCEPTION: {ex.ToString()}");
+            }
+
+            Console.WriteLine($"{DateTime.UtcNow.ToString("O")} - elapsed: {(DateTime.UtcNow - startDT).TotalSeconds} seconds");
+
+            while(true)
+            {
+                Console.WriteLine("keep alive...");
+                var client = new SimpleWrapper(URL);
+                var authResp = client.Authenticate(new AuthRequest() { UserName = "foo", Password = "bar" });
+                Thread.Sleep(5000);
+            }
+
+
+            Console.ReadLine();
         }
 
 

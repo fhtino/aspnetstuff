@@ -75,6 +75,7 @@
     <Compile Include="api.ashx.cs">
       <DependentUpon>api.ashx</DependentUpon>
     </Compile>
+    <Compile Include="APIAttribute.cs" />
     <Compile Include="default.aspx.cs">
       <DependentUpon>default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -84,6 +85,7 @@
     </Compile>
     <Compile Include="DirectAPI1.cs" />
     <Compile Include="DirectAPI2.cs" />
+    <Compile Include="Engine.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

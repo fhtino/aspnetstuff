@@ -93,4 +93,16 @@ namespace SharedObjects
         public long DataCounter { get; set; }
     }
 
+
+    public class  LongWaitRequest : SLActionBaseRequest
+    {
+        public int Seconds { get; set; }
+    }
+
+    public class LongWaitResponse : SLActionBaseResponse
+    {
+        public double ElapsedTime { get; set; }
+    }
+
+
 }

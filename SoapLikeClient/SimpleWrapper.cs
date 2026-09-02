@@ -38,6 +38,9 @@ namespace SoapLikeClient
 
         public FakeCalculateResponse FakeCalculate(FakeCalculateRequest req) { return (FakeCalculateResponse)DoHtppCall("FakeCalculate", req, typeof(FakeCalculateResponse)); }
 
+        public LongWaitResponse LongWait(LongWaitRequest req) { return (LongWaitResponse)DoHtppCall("LongWait", req, typeof(LongWaitResponse)); }
+
+
 
         // -----------------------
         // --- Private methods ---

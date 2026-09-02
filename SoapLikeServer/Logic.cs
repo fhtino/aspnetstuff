@@ -1,7 +1,11 @@
 ﻿using SharedObjects;
 using System;
 using System.Diagnostics;
+using System.IO;
+using System.Runtime.Remoting.Messaging;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Web.Services.Description;
 
 
 namespace SoapLikeServer
@@ -19,7 +23,7 @@ namespace SoapLikeServer
 
 
         [API]
-        public async Task<AuthResponse> Authenticate(AuthRequest request)
+        public async Task<AuthResponse> Authenticate(AuthRequest request, CancellationToken ct)
         {
             await Task.CompletedTask;
             await Task.Delay(100); // Simulate some delay
@@ -35,7 +39,7 @@ namespace SoapLikeServer
 
 
         [API]
-        public async Task<GetWeatherResponse> GetWeather(GetWeatherRequest request)
+        public async Task<GetWeatherResponse> GetWeather(GetWeatherRequest request, CancellationToken ct)
         {
             if (!ValidateAuthToken()) return new GetWeatherResponse() { ErrorCode = 999 };
 
@@ -45,15 +49,15 @@ namespace SoapLikeServer
             return new GetWeatherResponse
             {
                 ErrorCode = -1,
-                Weather = $"Sunny in {request.City} ",
+                Weather = $"Sunny in {request.City}.",
                 Temperature = 25,
-                Messages = new string[] { "Have a nice day!", "Don't forget to drink water!" }
+                Messages = new string[] { "Have a nice day!", "Stay safe!" }
             };
         }
 
 
         [API]
-        public async Task<GetBigDataResponse> GetBigData(GetBigDataRequest request)
+        public async Task<GetBigDataResponse> GetBigData(GetBigDataRequest request, CancellationToken ct)
         {
             if (!ValidateAuthToken()) return new GetBigDataResponse() { ErrorCode = 999 };
             await Task.CompletedTask;
@@ -78,7 +82,7 @@ namespace SoapLikeServer
 
 
         [API]
-        public async Task<SetBigDataResponse> SetBigData(SetBigData request)
+        public async Task<SetBigDataResponse> SetBigData(SetBigData request, CancellationToken ct)
         {
             if (!ValidateAuthToken()) return new SetBigDataResponse() { ErrorCode = 999 };
 
@@ -93,7 +97,7 @@ namespace SoapLikeServer
 
 
         [API]
-        public async Task<FakeCalculateResponse> FakeCalculate(FakeCalculateRequest request)
+        public async Task<FakeCalculateResponse> FakeCalculate(FakeCalculateRequest request, CancellationToken ct)
         {
             var sw = Stopwatch.StartNew();
             long dataCounter = 0;
@@ -120,6 +124,45 @@ namespace SoapLikeServer
                 DataCounter = dataCounter
             };
         }
+
+
+        [API]
+        public async Task<LongWaitResponse> LongWait(LongWaitRequest request, CancellationToken ct)
+        {
+            var sw = Stopwatch.StartNew();
+
+            if (false)
+            {
+                //await Task.Delay(request.Seconds * 1000, ct);
+                await Task.Delay(request.Seconds * 1000);
+                
+            }
+
+
+            if (true)
+            {
+                while (true)
+                {
+                    await Task.Delay(1000);
+                    if (sw.Elapsed.TotalSeconds >= request.Seconds) { break; }
+
+                    string logFilePath = "c://temp//mylog.txt";
+                    string logEntry = $"SERVER: {DateTime.UtcNow.ToString("O")} - {sw.Elapsed.TotalSeconds}\n";
+                    File.AppendAllText(logFilePath, logEntry);
+                }
+
+            }
+
+            return new LongWaitResponse
+            {
+                ErrorCode = -1,
+                ElapsedTime = sw.Elapsed.TotalSeconds
+            };
+        }
+
+
+
+        // ------------------------------------------------------------------------------------------------------------
 
 
         private bool ValidateAuthToken()
